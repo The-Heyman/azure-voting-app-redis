@@ -1,5 +1,5 @@
 #!/bin/bash
-export resourceGroup=demorg
+export resourceGroup=myResourceGroup$RANDOM
 virtualMachine=myVM
 adminUser=azureuser
 pathToKubeConfig=~/.kube/config
@@ -8,7 +8,7 @@ if [ -f $pathToKubeConfig ]
 then
 
     # Create a resource group.
-    # az group create --name $resourceGroup --location westeurope
+    az group create --name $resourceGroup --location westeurope
 
     # Create a new virtual machine, this creates SSH keys if not present.
     az vm create --resource-group $resourceGroup --name $virtualMachine --admin-username $adminUser --image UbuntuLTS --generate-ssh-keys
@@ -23,7 +23,7 @@ then
     az vm open-port --port 8080 --resource-group $resourceGroup --name $virtualMachine --priority 103
 
     # Use CustomScript extension to install NGINX.
-    az vm extension set --publisher Microsoft.Azure.Extensions --name CustomScript --vm-name $virtualMachine --resource-group $resourceGroup --settings '{"fileUris": ["https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/jenkins-tutorial/config-jenkins.sh"],"commandToExecute": "./config-jenkins.sh"}'
+    az vm extension set --publisher Microsoft.Azure.Extensions --version 2.0 --name CustomScript --vm-name $virtualMachine --resource-group $resourceGroup --settings '{"fileUris": ["https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/jenkins-tutorial/config-jenkins.sh"],"commandToExecute": "./config-jenkins.sh"}'
 
     # Get public IP
     ip=$(az vm list-ip-addresses --resource-group $resourceGroup --name $virtualMachine --query [0].virtualMachine.network.publicIpAddresses[0].ipAddress -o tsv)
@@ -42,8 +42,3 @@ then
 else
     echo "Kubernetes configuration / authentication file not found. Run az aks get-credentials to download this file."
 fi
-
-
-# ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins
-# yes | scp ~/.kube/config azureuser@52.186.142.23:/var/lib/jenkins/config
-# ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins/config
