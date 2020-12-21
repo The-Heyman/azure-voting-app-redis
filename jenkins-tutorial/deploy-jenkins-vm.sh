@@ -47,3 +47,17 @@ fi
 # ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins
 # yes | scp ~/.kube/config azureuser@52.186.142.23:/var/lib/jenkins/config
 # ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins/config
+
+
+# imagePullSecrets:
+#         - name: registry-secret
+
+
+# kubectl create secret docker-registry newsecret \
+#     --docker-server=domoacr.azurecr.io \
+#     --docker-username=fa769200-f73a-4387-a78d-dc9534c01847 \
+#     --docker-password=8hu0GmerBEFM.PFE-yuosXTGnntAtnQ7Ma
+
+# ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins
+# yes | scp ~/.kube/config azureuser@52.186.142.23:/var/lib/jenkins/config
+# ssh -o "StrictHostKeyChecking no" azureuser@52.186.142.23 sudo chmod 777 /var/lib/jenkins/config
