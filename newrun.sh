@@ -19,6 +19,6 @@ SP_PASSWD=$(az ad sp create-for-rbac --name http://$SERVICE_PRINCIPAL_NAME --sco
 SP_APP_ID=$(az ad sp show --id http://$SERVICE_PRINCIPAL_NAME --query appId --output tsv)
 
 # Output the service principal's credentials; use these in your services and
-# applications to authenticate to the container registry.
+# applications to authenticate to the container registry. test
 echo "Service principal ID: $SP_APP_ID"
 echo "Service principal password: $SP_PASSWD"
